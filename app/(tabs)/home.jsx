@@ -8,9 +8,8 @@ import {
   Platform,
   Image,
 } from "react-native";
-import MapView, { Marker, UrlTile } from "react-native-maps";
-import { ChevronRight, Clock } from "lucide-react-native";
 import LeafletMapView from "../../components/LeafletMapView";
+import { ChevronRight, Clock } from "lucide-react-native";
 
 // 🔧 Dynamic variables grouped here for easy debugging
 const useVariables = () => {
@@ -42,8 +41,8 @@ const useVariables = () => {
 
 export default function HomeScreen() {
   const {
-    lat,
     lon,
+    lat,
     locationName,
     city,
     date,
@@ -127,7 +126,8 @@ const styles = StyleSheet.create({
   container: {
     paddingHorizontal: 16,
     paddingTop: 50,
-    backgroundColor: "#fff",
+    paddingBottom: 100,
+    backgroundColor: "white",
     flex: 1,
   },
   title: {
@@ -192,7 +192,7 @@ const styles = StyleSheet.create({
   },
   panicID: {
     backgroundColor: "#f1f1f1",
-    padding: 10,
+    padding: 15,
     borderRadius: 6,
     fontWeight: "bold",
   },
@@ -257,6 +257,9 @@ const styles = StyleSheet.create({
   recentContainer: {
     marginTop: 24,
     paddingBottom: 30,
+    backgroundColor: "#FFD9DA",
+    padding: 12,
+    borderRadius: 10,
   },
   recentRow: {
     flexDirection: "row",
