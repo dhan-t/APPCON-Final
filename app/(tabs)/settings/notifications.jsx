@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { View, Text, StyleSheet, TouchableOpacity } from "react-native";
 
 export default function Notifications() {
-  const [isEnabled, setIsEnabled] = useState(true); // State for notifications toggle
+  const [isEnabled, setIsEnabled] = useState(true);
 
   return (
     <View style={styles.container}>
@@ -65,8 +65,8 @@ const styles = StyleSheet.create({
     backgroundColor: "#f5f5f5",
   },
   radioSelected: {
-    backgroundColor: "#007BFF",
-    borderColor: "#007BFF",
+    borderColor: "#ec4c73",
+    backgroundColor: "#ec4c73",
   },
   radioText: {
     color: "#000",

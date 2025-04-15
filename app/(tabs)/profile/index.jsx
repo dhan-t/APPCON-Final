@@ -132,7 +132,7 @@ const styles = StyleSheet.create({
     left: 0,
     right: 0,
     backgroundColor: "white",
-    zIndex: 10,
+
     justifyContent: "flex-end", // Align title to the bottom of the header
     borderBottomWidth: 1,
   },

@@ -18,8 +18,9 @@ export default function Layout() {
       <Stack.Screen name="location" options={{ title: "Location" }} />
       <Stack.Screen
         name="panicpinConfigure"
-        options={{ title: "PanicPin Configuration" }}
+        options={{ title: "Configure your PanicPin" }}
       />
+      <Stack.Screen name="notifications" options={{ title: "Notification" }} />
       <Stack.Screen name="about" options={{ title: "About App" }} />
     </Stack>
   );
