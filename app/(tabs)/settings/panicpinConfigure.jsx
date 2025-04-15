@@ -17,8 +17,6 @@ export default function PanicPinConfigure() {
 
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>Activation configuration</Text>
-
       {/* Accidental touch prevention */}
       <View style={styles.section}>
         <Text style={styles.sectionTitle}>Accidental touch prevention</Text>

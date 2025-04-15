@@ -11,8 +11,6 @@ export default function TextSize() {
 
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>Text Size</Text>
-
       {/* Text size slider */}
       <View style={styles.section}>
         <Text style={styles.sectionTitle}>Select text size</Text>

@@ -1,9 +1,10 @@
-import React from "react";
+import React, { useRef } from "react";
 import {
   View,
   Text,
   TouchableOpacity,
   StyleSheet,
+  Animated,
   ScrollView,
 } from "react-native";
 import {
@@ -20,6 +21,33 @@ import { useRouter } from "expo-router"; // Use router for navigation
 
 export default function Settings() {
   const router = useRouter(); // Initialize router
+
+  const scrollY = useRef(new Animated.Value(0)).current; // Animated value for scroll position
+
+  // Interpolations for header size and position
+  const headerHeight = scrollY.interpolate({
+    inputRange: [0, 100],
+    outputRange: [100, 60], // Header height shrinks from 100 to 60
+    extrapolate: "clamp",
+  });
+
+  const headerFontSize = scrollY.interpolate({
+    inputRange: [0, 100],
+    outputRange: [35, 20], // Font size shrinks from 35 to 20
+    extrapolate: "clamp",
+  });
+
+  const headerPadding = scrollY.interpolate({
+    inputRange: [0, 100],
+    outputRange: [25, 10], // Padding reduces as the header shrinks
+    extrapolate: "clamp",
+  });
+
+  const headerBorderColor = scrollY.interpolate({
+    inputRange: [0, 100],
+    outputRange: ["transparent", "#ddd"], // Transparent when expanded, gray when collapsed
+    extrapolate: "clamp",
+  });
 
   const sections = [
     {
@@ -85,38 +113,82 @@ export default function Settings() {
   ];
 
   return (
-    <ScrollView style={styles.container}>
-      <Text style={styles.title}>App settings</Text>
+    <View style={styles.container}>
+      {/* Animated Header */}
+      <Animated.View
+        style={[
+          styles.header,
+          {
+            height: headerHeight,
+            paddingHorizontal: 16,
+            paddingBottom: headerPadding,
+            borderBottomColor: headerBorderColor, // Dynamically set border color
+            borderColor: "transparent",
+          },
+        ]}
+      >
+        <Animated.Text
+          style={[styles.headerTitle, { fontSize: headerFontSize }]}
+        >
+          Settings
+        </Animated.Text>
+      </Animated.View>
 
-      {sections.map((section, sectionIndex) => (
-        <View key={sectionIndex}>
-          <Text style={styles.sectionTitle}>{section.title}</Text>
-          {section.items.map((item, itemIndex) => (
-            <TouchableOpacity
-              key={itemIndex}
-              style={styles.settingItem}
-              onPress={() => router.navigate(item.path)} // Navigate using the full path
-            >
-              <View style={styles.iconBox}>{item.icon}</View>
-              <Text style={styles.settingText}>{item.name}</Text>
-            </TouchableOpacity>
-          ))}
-        </View>
-      ))}
-    </ScrollView>
+      {/* Scrollable Content */}
+      <Animated.ScrollView
+        style={styles.scrollView}
+        contentContainerStyle={{
+          paddingTop: 100,
+          paddingBottom: 40,
+          paddingLeft: 16,
+          paddingRight: 16,
+        }}
+        onScroll={Animated.event(
+          [{ nativeEvent: { contentOffset: { y: scrollY } } }],
+          { useNativeDriver: false }
+        )}
+        scrollEventThrottle={16}
+      >
+        {sections.map((section, sectionIndex) => (
+          <View key={sectionIndex}>
+            <Text style={styles.sectionTitle}>{section.title}</Text>
+            {section.items.map((item, itemIndex) => (
+              <TouchableOpacity
+                key={itemIndex}
+                style={styles.settingItem}
+                onPress={() => router.navigate(item.path)} // Navigate using the full path
+              >
+                <View style={styles.iconBox}>{item.icon}</View>
+                <Text style={styles.settingText}>{item.name}</Text>
+              </TouchableOpacity>
+            ))}
+          </View>
+        ))}
+      </Animated.ScrollView>
+    </View>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    padding: 16,
     backgroundColor: "#fff",
   },
-  title: {
-    fontSize: 22,
+  header: {
+    position: "absolute",
+    top: 0,
+    left: 0,
+    right: 0,
+    backgroundColor: "white",
+    zIndex: 10,
+    justifyContent: "flex-end", // Align title to the bottom of the header
+    borderBottomWidth: 1,
+  },
+  headerTitle: {
     fontWeight: "bold",
-    marginBottom: 24,
+  },
+  scrollView: {
+    flex: 1,
   },
   sectionTitle: {
     fontSize: 14,
@@ -134,7 +206,7 @@ const styles = StyleSheet.create({
   iconBox: {
     width: 40,
     height: 40,
-    borderRadius: 8,
+    borderRadius: 100,
     backgroundColor: "#fbdede", // Light pink background for the icon
     justifyContent: "center",
     alignItems: "center",

@@ -10,7 +10,6 @@ const developer = "Your Company Name";
 export default function AboutApp() {
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>About App</Text>
       <Text style={styles.text}>
         <Text style={styles.label}>App Name: </Text>
         {appName}

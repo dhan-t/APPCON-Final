@@ -1,12 +1,13 @@
-import React from "react";
+import React, { useRef } from "react";
 import {
   View,
   Text,
   StyleSheet,
   ScrollView,
   TouchableOpacity,
+  Animated,
 } from "react-native";
-import { Clock, RotateCcw } from "lucide-react-native"; // Importing icons
+import { CalendarClock, RotateCcw } from "lucide-react-native"; // Importing icons
 import { useRouter } from "expo-router"; // Import router for navigation
 
 // 🔧 Dynamic variables grouped here for easy backend integration
@@ -36,49 +37,116 @@ export default function RecentArea() {
   const { recentAreas } = useVariables();
   const router = useRouter(); // Initialize router for navigation
 
+  const scrollY = useRef(new Animated.Value(0)).current; // Animated value for scroll position
+
+  // Interpolations for header size and position
+  const headerHeight = scrollY.interpolate({
+    inputRange: [0, 100],
+    outputRange: [100, 60], // Header height shrinks from 100 to 60
+    extrapolate: "clamp",
+  });
+
+  const headerFontSize = scrollY.interpolate({
+    inputRange: [0, 100],
+    outputRange: [35, 20], // Font size shrinks from 28 to 20
+    extrapolate: "clamp",
+  });
+
+  const headerPadding = scrollY.interpolate({
+    inputRange: [0, 100],
+    outputRange: [25, 10], // Padding reduces as the header shrinks
+    extrapolate: "clamp",
+  });
+
+  const headerBorderColor = scrollY.interpolate({
+    inputRange: [0, 100],
+    outputRange: ["transparent", "#ddd"], // Transparent when expanded, gray when collapsed
+    extrapolate: "clamp",
+  });
+
   return (
-    <ScrollView style={styles.container}>
-      <Text style={styles.title}>Recent areas</Text>
+    <View style={styles.container}>
+      {/* Animated Header */}
+      <Animated.View
+        style={[
+          styles.header,
+          {
+            height: headerHeight,
+            paddingHorizontal: 16,
+            paddingBottom: headerPadding,
+            borderBottomColor: headerBorderColor, // Dynamically set border color
+            borderColor: "transparent",
+          },
+        ]}
+      >
+        <Animated.Text
+          style={[styles.headerTitle, { fontSize: headerFontSize }]}
+        >
+          Recent areas
+        </Animated.Text>
+      </Animated.View>
 
-      {recentAreas.map((area, index) => (
-        <View key={index} style={styles.areaRow}>
-          {/* Left Section: Icon and Area Info */}
-          <View style={styles.areaInfo}>
-            <View style={styles.areaHeader}>
-              <RotateCcw size={24} style={styles.icon} />
+      {/* Scrollable Content */}
+      <Animated.ScrollView
+        style={styles.scrollView}
+        contentContainerStyle={{ paddingTop: 100, paddingBottom: 40 }}
+        onScroll={Animated.event(
+          [{ nativeEvent: { contentOffset: { y: scrollY } } }],
+          { useNativeDriver: false }
+        )}
+        scrollEventThrottle={16}
+      >
+        {recentAreas.map((area, index) => (
+          <View key={index} style={styles.areaRow}>
+            {/* Left Section: Icon and Area Info */}
+            <View style={styles.areaInfo}>
+              <View style={styles.areaHeader}>
+                <RotateCcw size={24} style={styles.icon} />
 
-              <View style={styles.cityDate}>
-                <Text style={styles.areaName}>{area.name}</Text>
-                <View style={styles.dateRow}>
-                  <Clock size={16} style={styles.dateIcon} />
-                  <Text style={styles.dateText}>{area.date}</Text>
+                <View style={styles.cityDate}>
+                  <Text style={styles.areaName}>{area.name}</Text>
+                  <View style={styles.dateRow}>
+                    <CalendarClock size={16} style={styles.dateIcon} />
+                    <Text style={styles.dateText}>{area.date}</Text>
+                  </View>
                 </View>
               </View>
             </View>
+            {/* Right Section: Review Button */}
+            <TouchableOpacity
+              style={styles.reviewButton}
+              onPress={() => router.navigate("/recentArea/areaReview")} // Navigate to areaReview
+            >
+              <Text style={styles.reviewButtonText}>Review</Text>
+            </TouchableOpacity>
           </View>
-          {/* Right Section: Review Button */}
-          <TouchableOpacity
-            style={styles.reviewButton}
-            onPress={() => router.navigate("/recentArea/areaReview")} // Navigate to areaReview
-          >
-            <Text style={styles.reviewButtonText}>Review</Text>
-          </TouchableOpacity>
-        </View>
-      ))}
-    </ScrollView>
+        ))}
+      </Animated.ScrollView>
+    </View>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    padding: 16,
     backgroundColor: "white",
   },
-  title: {
-    fontSize: 28,
+  header: {
+    position: "absolute",
+    top: 0,
+    left: 0,
+    right: 0,
+    backgroundColor: "white",
+    zIndex: 10,
+    justifyContent: "flex-end", // Align title to the bottom of the header
+    borderBottomWidth: 1,
+    borderBottomColor: "#ddd",
+  },
+  headerTitle: {
     fontWeight: "bold",
-    marginBottom: 16,
+  },
+  scrollView: {
+    flex: 1,
   },
   areaRow: {
     flexDirection: "row",
@@ -88,6 +156,7 @@ const styles = StyleSheet.create({
     padding: 16,
     borderRadius: 8,
     marginBottom: 12,
+    marginHorizontal: 16,
   },
   areaInfo: {
     flex: 1,

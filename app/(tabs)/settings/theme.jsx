@@ -11,8 +11,6 @@ export default function Theme() {
 
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>Theme</Text>
-
       {/* Theme toggle */}
       <View style={styles.section}>
         <Text style={styles.sectionTitle}>Select theme</Text>

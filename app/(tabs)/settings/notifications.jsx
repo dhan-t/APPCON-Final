@@ -6,8 +6,6 @@ export default function Notifications() {
 
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>Notifications</Text>
-
       <View style={styles.row}>
         <Text style={styles.label}>Enable Notifications</Text>
         <View style={styles.radioGroup}>

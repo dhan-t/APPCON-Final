@@ -27,7 +27,7 @@ export default ContactItem = ({ item, toggleFavContact }) => {
     <TouchableWithoutFeedback onPress={() => setIsToggled((prev) => !prev)}>
       <View
         className={`${
-          item.isFav ? "bg-mistyRose" : "bg-[#ddd]"
+          item.isFav ? "bg-mistyRose" : "bg-[#F5F5F5]"
         } px-3 py-4  rounded-lg`}
       >
         <View

@@ -12,8 +12,6 @@ export default function Location() {
 
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>Location access</Text>
-
       {/* Save my location history */}
       <View style={styles.row}>
         <Text style={styles.label}>Save my location history</Text>

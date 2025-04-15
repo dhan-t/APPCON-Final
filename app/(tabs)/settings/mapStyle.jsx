@@ -13,8 +13,6 @@ export default function MapStyle() {
 
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>Map Style</Text>
-
       {/* Map style dropdown */}
       <View style={styles.section}>
         <Text style={styles.sectionTitle}>Select map style</Text>
