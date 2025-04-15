@@ -3,7 +3,6 @@ import { Stack } from "expo-router";
 import { createTamagui, TamaguiProvider } from "tamagui";
 import { defaultConfig } from "@tamagui/config/v4";
 import { SafeAreaProvider } from "react-native-safe-area-context";
-
 const _layout = () => {
   const config = createTamagui(defaultConfig);
 

@@ -7,6 +7,7 @@ import {
   TouchableOpacity,
 } from "react-native";
 import { Clock, RotateCcw } from "lucide-react-native"; // Importing icons
+import { useRouter } from "expo-router"; // Import router for navigation
 
 // 🔧 Dynamic variables grouped here for easy backend integration
 const useVariables = () => {
@@ -31,8 +32,9 @@ const useVariables = () => {
   };
 };
 
-export default function RecentAreas() {
+export default function RecentArea() {
   const { recentAreas } = useVariables();
+  const router = useRouter(); // Initialize router for navigation
 
   return (
     <ScrollView style={styles.container}>
@@ -54,9 +56,12 @@ export default function RecentAreas() {
               </View>
             </View>
           </View>
-          {/* Right Section: Share Insights Button */}
-          <TouchableOpacity style={styles.shareButton}>
-            <Text style={styles.shareButtonText}>Review</Text>
+          {/* Right Section: Review Button */}
+          <TouchableOpacity
+            style={styles.reviewButton}
+            onPress={() => router.navigate("/recentArea/areaReview")} // Navigate to areaReview
+          >
+            <Text style={styles.reviewButtonText}>Review</Text>
           </TouchableOpacity>
         </View>
       ))}
@@ -102,7 +107,7 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
     color: "#1e1e1e",
     flexShrink: 1,
-    width: "99%", // Ensures the text doesn't overflow
+    width: "100%", // Ensures the text doesn't overflow
   },
   dateRow: {
     flexDirection: "row",
@@ -117,13 +122,13 @@ const styles = StyleSheet.create({
     fontSize: 14,
     color: "#555",
   },
-  shareButton: {
+  reviewButton: {
     backgroundColor: "#ec4c73",
     paddingVertical: 8,
     paddingHorizontal: 16,
     borderRadius: 8,
   },
-  shareButtonText: {
+  reviewButtonText: {
     color: "white",
     fontWeight: "bold",
     fontSize: 14,

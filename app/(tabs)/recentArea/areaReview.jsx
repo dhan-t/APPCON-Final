@@ -7,8 +7,9 @@ import {
   TouchableOpacity,
   ScrollView,
 } from "react-native";
-import { Clock } from "lucide-react-native";
+import { Clock, Info } from "lucide-react-native";
 import LeafletMapView from "../../../components/LeafletMapView";
+
 export default function AreaReview() {
   // Static values similar to recentAreas.jsx
   const name = "Bambang";
@@ -33,16 +34,24 @@ export default function AreaReview() {
       <Text style={styles.title}>Area review</Text>
 
       {/* Map Section */}
+      <Text style={styles.subtitle}>Rate the area</Text>
       <View style={styles.mapWrapper}>
         <LeafletMapView lat={lat} lon={lon} />
       </View>
 
+      {/* Location Details */}
       <Text style={styles.locationText}>
         <Text style={{ fontWeight: "bold" }}>{name}</Text>, {city}
       </Text>
       <View style={styles.dateRow}>
         <Clock size={16} />
         <Text style={styles.dateText}>{date}</Text>
+      </View>
+
+      {/* Info Section */}
+      <View style={styles.infoRow}>
+        <Info size={16} color="#555" />
+        <Text style={styles.infoText}>What’s this for?</Text>
       </View>
 
       {/* Rating Section */}
@@ -66,7 +75,14 @@ export default function AreaReview() {
                 ]}
                 onPress={() => handleRatingChange(category, value)}
               >
-                <Text style={styles.radioText}>{value}</Text>
+                <Text
+                  style={[
+                    styles.radioText,
+                    ratings[category] === value && styles.radioTextSelected,
+                  ]}
+                >
+                  {value}
+                </Text>
               </TouchableOpacity>
             ))}
           </View>
@@ -104,6 +120,11 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
     marginBottom: 16,
   },
+  subtitle: {
+    fontSize: 18,
+    fontWeight: "bold",
+    marginBottom: 12,
+  },
   mapWrapper: {
     height: 200,
     borderRadius: 12,
@@ -124,6 +145,16 @@ const styles = StyleSheet.create({
     fontSize: 14,
     color: "#555",
   },
+  infoRow: {
+    flexDirection: "row",
+    alignItems: "center",
+    marginBottom: 16,
+  },
+  infoText: {
+    marginLeft: 8,
+    fontSize: 14,
+    color: "#555",
+  },
   sectionTitle: {
     fontSize: 18,
     fontWeight: "bold",
@@ -131,6 +162,9 @@ const styles = StyleSheet.create({
   },
   ratingContainer: {
     marginBottom: 16,
+    backgroundColor: "#ffe4e9",
+    padding: 12,
+    borderRadius: 8,
   },
   ratingTitle: {
     fontSize: 16,
@@ -142,9 +176,9 @@ const styles = StyleSheet.create({
     justifyContent: "space-between",
   },
   radioButton: {
-    width: 30,
-    height: 30,
-    borderRadius: 15,
+    width: 40,
+    height: 40,
+    borderRadius: 20,
     backgroundColor: "#f1f1f1",
     justifyContent: "center",
     alignItems: "center",
@@ -154,10 +188,16 @@ const styles = StyleSheet.create({
   },
   radioText: {
     fontSize: 14,
+    color: "#555",
+  },
+  radioTextSelected: {
     color: "white",
   },
   commentContainer: {
     marginTop: 20,
+    backgroundColor: "#ffe4e9",
+    padding: 12,
+    borderRadius: 8,
   },
   commentTitle: {
     fontSize: 16,

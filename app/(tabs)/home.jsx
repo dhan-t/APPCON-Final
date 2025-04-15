@@ -105,40 +105,6 @@ export default function HomeScreen() {
           </View>
         ))}
       </View>
-
-      <View style={styles.recentContainer}>
-        <Text style={styles.sectionTitleRecent}>Recent Areas</Text>
-
-        {recentAreas.map((item, index) => (
-          <TouchableOpacity
-            key={index}
-            style={styles.recentRow}
-            onPress={() =>
-              navigation.navigate("../pages/rating-screens/recent-areas.jsx", {
-                name: item.name,
-                city: item.city,
-                date: item.date,
-                time: item.time,
-              })
-            }
-          >
-            <View>
-              <Text style={styles.recentText}>
-                <Text style={{ fontWeight: "bold" }}>{item.name}</Text>,{" "}
-                {item.city}
-              </Text>
-              <Text style={styles.recentTime}>
-                You visited this area {item.time}
-              </Text>
-            </View>
-            <View style={styles.recentRight}>
-              <Clock size={16} />
-              <Text style={styles.dateText}>{item.date}</Text>
-              <ChevronRight size={18} />
-            </View>
-          </TouchableOpacity>
-        ))}
-      </View>
     </ScrollView>
   );
 }
