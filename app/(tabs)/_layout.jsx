@@ -1,4 +1,4 @@
-import { View, Text, Image } from "react-native";
+import { View, Text } from "react-native";
 import React from "react";
 import { Tabs } from "expo-router";
 import icons from "@/constants/icons";
@@ -59,15 +59,15 @@ const TabsLayout = () => {
         }}
       />
       <Tabs.Screen
-        name="ai"
+        name="contacts"
         options={{
-          title: "Ai",
+          title: "Contacts",
           tabBarIcon: ({ focused, color }) => (
             <TabIcon
               color={color}
               focused={focused}
-              Icon={icons.ai}
-              name={"Ai"}
+              Icon={icons.contacts}
+              name={"Contacts"}
             />
           ),
         }}
@@ -87,15 +87,15 @@ const TabsLayout = () => {
         }}
       />
       <Tabs.Screen
-        name="contacts"
+        name="recentArea"
         options={{
-          title: "Contacts",
+          title: "Recent Area",
           tabBarIcon: ({ focused, color }) => (
             <TabIcon
               color={color}
               focused={focused}
-              Icon={icons.contacts}
-              name={"Contacts"}
+              Icon={icons.map}
+              name={"Map History"}
             />
           ),
         }}

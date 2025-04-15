@@ -19,7 +19,7 @@ const useVariables = () => {
     locationName: "Bambang",
     city: "Taguig",
     date: "12-13-24",
-    distressSent: true,
+    distressSent: false,
     etaMinutes: 20,
     mapRegion: {
       latitude: 14.6091,
@@ -28,7 +28,7 @@ const useVariables = () => {
       longitudeDelta: 0.01,
     },
     hotspots: [
-      { name: "Bambang", reports: 10 },
+      { name: "Bambasng", reports: 10 },
       { name: "Mariano Ave", reports: 10 },
       { name: "Garden of Memories", reports: 10 },
     ],
@@ -107,12 +107,33 @@ export default function HomeScreen() {
       </View>
 
       <View style={styles.recentContainer}>
-        <Text style={styles.sectionTitle}>Recent Areas</Text>
+        <Text style={styles.sectionTitleRecent}>Recent Areas</Text>
+
         {recentAreas.map((item, index) => (
-          <TouchableOpacity key={index} style={styles.recentRow}>
-            <Text style={styles.recentText}>{item.name}</Text>
+          <TouchableOpacity
+            key={index}
+            style={styles.recentRow}
+            onPress={() =>
+              navigation.navigate("../pages/rating-screens/recent-areas.jsx", {
+                name: item.name,
+                city: item.city,
+                date: item.date,
+                time: item.time,
+              })
+            }
+          >
+            <View>
+              <Text style={styles.recentText}>
+                <Text style={{ fontWeight: "bold" }}>{item.name}</Text>,{" "}
+                {item.city}
+              </Text>
+              <Text style={styles.recentTime}>
+                You visited this area {item.time}
+              </Text>
+            </View>
             <View style={styles.recentRight}>
-              <Text style={styles.recentTime}>{item.time}</Text>
+              <Clock size={16} />
+              <Text style={styles.dateText}>{item.date}</Text>
               <ChevronRight size={18} />
             </View>
           </TouchableOpacity>
@@ -134,6 +155,7 @@ const styles = StyleSheet.create({
     fontSize: 28,
     fontWeight: "bold",
   },
+
   locationRow: {
     flexDirection: "row",
     justifyContent: "space-between",
@@ -232,6 +254,12 @@ const styles = StyleSheet.create({
   },
   sectionTitle: {
     color: "white",
+    fontWeight: "bold",
+    fontSize: 16,
+    marginBottom: 8,
+  },
+  sectionTitleRecent: {
+    color: "#1e1e1e",
     fontWeight: "bold",
     fontSize: 16,
     marginBottom: 8,
